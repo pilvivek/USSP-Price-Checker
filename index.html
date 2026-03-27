@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USSP Price Sanity Checker & Analysis Tool</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <div class="nav-logo">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7h6l-3-4zM9 17h6l-3 4z"/><rect x="4" y="7" width="16" height="10" rx="1"/><path d="M8 11h2M14 11h2M8 14h8"/></svg>
+          <span>USSP Price Checker</span>
+        </div>
+        <div class="nav-links">
+          <a href="#" class="active" data-tab="upload">Upload & Analyze</a>
+          <a href="#" data-tab="sanity">Price Comparison & Hygiene Checks</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <div class="nav-user">
+          <div class="avatar">AT</div>
+          <span>USSP Team</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <h1>Provider Pricing Sanity Check & Comparison Tool</h1>
+      <p class="page-desc">Upload provider pricing files (.xlsx, .xlsm, .csv, .json) to analyze pricing, run sanity checks, and compare with previous versions.</p>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <!-- TAB 1: Upload & Analyze -->
+    <section class="tab-panel active" id="panel-upload">
+      <!-- Upload Area -->
+      <div class="upload-grid">
+        <div class="upload-card" id="dropzone-current">
+          <div class="upload-icon">
+            <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6M9 15l3-3 3 3"/></svg>
+          </div>
+          <h3>Current File (New)</h3>
+          <p>Drop your latest provider pricing file here</p>
+          <input type="file" id="file-current" accept=".csv,.json,.xlsx,.xls,.xlsm,.xlsb" hidden>
+          <button class="btn-upload" onclick="document.getElementById('file-current').click()">Choose File</button>
+          <div class="file-info" id="info-current"></div>
+        </div>
+        <div class="upload-card" id="dropzone-previous">
+          <div class="upload-icon secondary">
+            <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 12v6M9 15l3 3 3-3"/></svg>
+          </div>
+          <h3>Previous File (Old) — Optional</h3>
+          <p>Upload previous version for price comparison</p>
+          <input type="file" id="file-previous" accept=".csv,.json,.xlsx,.xls,.xlsm,.xlsb" hidden>
+          <button class="btn-upload secondary" onclick="document.getElementById('file-previous').click()">Choose File</button>
+          <div class="file-info" id="info-previous"></div>
+        </div>
+      </div>
+
+      <!-- Provider Info -->
+      <div class="provider-bar" id="provider-bar" style="display:none;">
+        <span id="provider-name-display"></span>
+        <span id="provider-file-display"></span>
+        <button class="btn-download" id="btn-download-analysis" style="margin-left:auto;" disabled>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download Price Analysis
+        </button>
+      </div>
+
+      <!-- Analysis Output -->
+      <div id="analysis-output"></div>
+    </section>
+
+    <!-- TAB 2: Sanity Check & Comparison -->
+    <section class="tab-panel" id="panel-sanity">
+      <div class="sanity-top-bar">
+        <h2>Price Comparison & Hygiene Checks</h2>
+        <div class="sanity-actions">
+          <select id="sanity-sheet-select"></select>
+          <button class="btn-download" id="btn-download-excel" disabled>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download Excel Report
+          </button>
+        </div>
+      </div>
+      <div class="sanity-legend">
+        <span class="legend-item"><span class="legend-swatch issue-swatch"></span> Hygiene Issue</span>
+        <span class="legend-item"><span class="legend-swatch compare-swatch"></span> Price Change (vs Previous)</span>
+      </div>
+      <div id="sanity-table-area">
+        <div class="empty-state">
+          <p>Upload a file to see sanity check results</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="app.js?v=20260325g"></script>
+</body>
+</html>
